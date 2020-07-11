@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class InputUI : MonoBehaviour
 {
     [SerializeField] private Text changeText;
-    [SerializeField] private ArrowImage up, down, left, right;
+    //[SerializeField] private ArrowImage up, down, left, right;
 
     [SerializeField] private List<Text> arrowTexts = new List<Text>();
 
@@ -17,10 +17,10 @@ public class InputUI : MonoBehaviour
         InputChanger.ChangedInput += UpdateChangeText;
         InputChanger.ChangedInput2 += UpdateChangeText;
 
-        InputManager.Instance.UpArrow += up.ChangeToGreen;
-        InputManager.Instance.DownArrow += down.ChangeToGreen;
-        InputManager.Instance.LeftArrow += left.ChangeToGreen;
-        InputManager.Instance.RightArrow += right.ChangeToGreen;
+        //InputManager.Instance.UpArrow += up.ChangeToGreen;
+        //InputManager.Instance.DownArrow += down.ChangeToGreen;
+        //InputManager.Instance.LeftArrow += left.ChangeToGreen;
+        //InputManager.Instance.RightArrow += right.ChangeToGreen;
     }
 
     private void UpdateChangeText(int iChanged, int iNew)
@@ -34,7 +34,7 @@ public class InputUI : MonoBehaviour
 
         for (int i = 0; i < arrowTexts.Count; i++)
         {
-            arrowTexts[i].text = InputManager.Instance.Codes[i].ToString();
+            arrowTexts[i].text = InputManager.Instance.Codes[i].ToString().TrimEnd("Arrow".ToCharArray());
         }
     }
     private void UpdateChangeText(KeyCode iChanged, KeyCode iNew)
@@ -48,7 +48,7 @@ public class InputUI : MonoBehaviour
 
         for (int i = 0; i < arrowTexts.Count; i++)
         {
-            arrowTexts[i].text = InputManager.Instance.Codes[i].ToString();
+            arrowTexts[i].text = InputManager.Instance.Codes[i].ToString().TrimEnd("Arrow".ToCharArray());
         }
     }
 

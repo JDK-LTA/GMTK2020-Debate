@@ -9,6 +9,9 @@ public class InputChanger : MonoBehaviour
     public delegate void ChangerEvents2(KeyCode i, KeyCode j);
     public static event ChangerEvents2 ChangedInput2;
 
+    public delegate void ChangeBasicEvents();
+    public static event ChangeBasicEvents ChangeBasic;
+
     private float tChange = 0;
     public float timerToChangeInput = 5;
 
@@ -34,6 +37,7 @@ public class InputChanger : MonoBehaviour
             {
                 RNGenerateChange2();
             }
+            ChangeBasic?.Invoke();
         }
     }
 

@@ -28,9 +28,13 @@ public class InputManager : MonoBehaviour
 
     public delegate void InputEvents();
     public event InputEvents UpArrow;
+    public event InputEvents UpArrowU;
     public event InputEvents DownArrow;
+    public event InputEvents DownArrowU;
     public event InputEvents LeftArrow;
+    public event InputEvents LeftArrowU;
     public event InputEvents RightArrow;
+    public event InputEvents RightArrowU;
     public event InputEvents Extra1;
     public event InputEvents Extra2;
 
@@ -50,22 +54,38 @@ public class InputManager : MonoBehaviour
             if (Input.GetKeyDown(codes[0]))
             {
                 UpArrow?.Invoke();
-                inputPressed = true;
+                //inputPressed = true;
             }
-            else if (Input.GetKeyDown(codes[1]))
+            else if (Input.GetKeyUp(codes[0]))
+            {
+                UpArrowU?.Invoke();
+            }
+            if (Input.GetKeyDown(codes[1]))
             {
                 DownArrow?.Invoke();
-                inputPressed = true;
+                //inputPressed = true;
             }
-            else if(Input.GetKeyDown(codes[2]))
+            else if (Input.GetKeyUp(codes[1]))
+            {
+                DownArrowU?.Invoke();
+            }
+            if (Input.GetKeyDown(codes[2]))
             {
                 LeftArrow?.Invoke();
-                inputPressed = true;
+                //inputPressed = true;
             }
-            else if (Input.GetKeyDown(codes[3]))
+            else if (Input.GetKeyUp(codes[2]))
+            {
+                LeftArrowU?.Invoke();
+            }
+            if (Input.GetKeyDown(codes[3]))
             {
                 RightArrow?.Invoke();
-                inputPressed = true;
+                //inputPressed = true;
+            }
+            else if (Input.GetKeyUp(codes[3]))
+            {
+                RightArrowU?.Invoke();
             }
         }
         else
