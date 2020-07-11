@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -16,7 +17,9 @@ public class InputManager : MonoBehaviour
     private KeyCode rightCode = KeyCode.RightArrow;
 
     [SerializeField] private List<KeyCode> codes = new List<KeyCode>();
+    [SerializeField] private List<DirectionEnum> directions = new List<DirectionEnum>();
     public List<KeyCode> Codes { get => codes; set => codes = value; }
+    public List<DirectionEnum> Directions { get => directions; set => directions = value; }
 
     private void Start()
     {
@@ -24,6 +27,11 @@ public class InputManager : MonoBehaviour
         codes.Add(downCode);
         codes.Add(leftCode);
         codes.Add(rightCode);
+
+        directions.Add(DirectionEnum.UP);
+        directions.Add(DirectionEnum.DOWN);
+        directions.Add(DirectionEnum.LEFT);
+        directions.Add(DirectionEnum.RIGHT);
     }
 
     public delegate void InputEvents();
@@ -47,6 +55,7 @@ public class InputManager : MonoBehaviour
     float debT = 0;
     public float debugTimeToResetInput = 0.5f;
 
+    int[] indexes = new int[4];
     private void Update()
     {
         if (!inputPressed)
@@ -54,38 +63,42 @@ public class InputManager : MonoBehaviour
             if (Input.GetKeyDown(codes[0]))
             {
                 UpArrow?.Invoke();
-                //inputPressed = true;
+                InputRequester.pressedDirs.Add(directions[0]);
             }
             else if (Input.GetKeyUp(codes[0]))
             {
                 UpArrowU?.Invoke();
+                InputRequester.pressedDirs.Remove(directions[0]);
             }
             if (Input.GetKeyDown(codes[1]))
             {
                 DownArrow?.Invoke();
-                //inputPressed = true;
+                InputRequester.pressedDirs.Add(directions[1]);
             }
             else if (Input.GetKeyUp(codes[1]))
             {
                 DownArrowU?.Invoke();
+                InputRequester.pressedDirs.Remove(directions[1]);
             }
             if (Input.GetKeyDown(codes[2]))
             {
                 LeftArrow?.Invoke();
-                //inputPressed = true;
+                InputRequester.pressedDirs.Add(directions[2]);
             }
             else if (Input.GetKeyUp(codes[2]))
             {
                 LeftArrowU?.Invoke();
+                InputRequester.pressedDirs.Remove(directions[2]);
             }
             if (Input.GetKeyDown(codes[3]))
             {
                 RightArrow?.Invoke();
-                //inputPressed = true;
+                InputRequester.pressedDirs.Add(directions[3]);
             }
             else if (Input.GetKeyUp(codes[3]))
             {
                 RightArrowU?.Invoke();
+                InputRequester.pressedDirs.Remove(directions[3]);
             }
         }
         else

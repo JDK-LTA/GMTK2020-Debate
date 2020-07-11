@@ -4,35 +4,35 @@ using System.Configuration;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum DirectionEnum { UP, DOWN, LEFT, RIGHT }
 public class ArrowImage : MonoBehaviour
 {
-    public enum Direction { UP, DOWN, LEFT, RIGHT }
     
     private Image image;
-    [SerializeField] Direction dir;
+    public DirectionEnum dir;
 
-    bool changed = false;
+    public bool green = false;
 
     private void Start()
     {
         image = GetComponent<Image>();
-        InputManager.Instance.DebugChangeColor += ChangeToRed;
+        //InputManager.Instance.DebugChangeColor += ChangeToRed;
 
         switch (dir)
         {
-            case Direction.UP:
+            case DirectionEnum.UP:
                 InputManager.Instance.UpArrow += ChangeToGreen;
                 InputManager.Instance.UpArrowU += ChangeToRed;
                 break;
-            case Direction.DOWN:
+            case DirectionEnum.DOWN:
                 InputManager.Instance.DownArrow += ChangeToGreen;
                 InputManager.Instance.DownArrowU += ChangeToRed; 
                 break;
-            case Direction.LEFT:
+            case DirectionEnum.LEFT:
                 InputManager.Instance.LeftArrow += ChangeToGreen;
                 InputManager.Instance.LeftArrowU += ChangeToRed; 
                 break;
-            case Direction.RIGHT:
+            case DirectionEnum.RIGHT:
                 InputManager.Instance.RightArrow += ChangeToGreen;
                 InputManager.Instance.RightArrowU += ChangeToRed; 
                 break;
@@ -42,20 +42,20 @@ public class ArrowImage : MonoBehaviour
                 break;
         }
 
-        InputChanger.ChangeBasic += ChangeToRed;
+        //InputChanger.ChangeBasic += ChangeToRed;
     }
 
     public void ChangeToGreen()
     {
         image.color = Color.green;
-        changed = true;
+        green = true;
     }
 
     public void ChangeToRed()
     {
-        if (changed)
+        if (green)
         {
-            changed = false;
+            green = false;
             image.color = Color.red;
         }
     }

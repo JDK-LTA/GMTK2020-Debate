@@ -6,21 +6,56 @@ using UnityEngine.UI;
 public class InputUI : MonoBehaviour
 {
     [SerializeField] private Text changeText;
-    //[SerializeField] private ArrowImage up, down, left, right;
+    [SerializeField] private Text requestText;
 
     [SerializeField] private List<Text> arrowTexts = new List<Text>();
+    [SerializeField] public List<ArrowImage> arrowImages = new List<ArrowImage>();
 
     [SerializeField] private bool showArrowTexts = true;
-    // Start is called before the first frame update
     void Start()
     {
         InputChanger.ChangedInput += UpdateChangeText;
         InputChanger.ChangedInput2 += UpdateChangeText;
 
-        //InputManager.Instance.UpArrow += up.ChangeToGreen;
-        //InputManager.Instance.DownArrow += down.ChangeToGreen;
-        //InputManager.Instance.LeftArrow += left.ChangeToGreen;
-        //InputManager.Instance.RightArrow += right.ChangeToGreen;
+        InputChanger.UpdateGreens += UpdateGreenImages;
+    }
+    private void Update()
+    {
+        requestText.text = InputRequester.requestedDirs[0].ToString();
+    }
+
+    private void UpdateGreenImages(DirectionEnum dChange, DirectionEnum dNew)
+    {
+        int i = 0, j = 0;
+
+        for (int m = 0; m < arrowImages.Count; m++)
+        {
+            if (arrowImages[m].dir == dChange)
+            {
+                i = m;
+            }
+            else if (arrowImages[m].dir == dNew)
+            {
+                j = m;
+            }
+        }
+
+        if (arrowImages[i].green)
+        {
+            if (!arrowImages[j].green)
+            {
+                arrowImages[i].ChangeToRed();
+                arrowImages[j].ChangeToGreen();
+            }
+        }
+        else
+        {
+            if (arrowImages[j].green)
+            {
+                arrowImages[i].ChangeToGreen();
+                arrowImages[j].ChangeToRed();
+            }
+        }
     }
 
     private void UpdateChangeText(int iChanged, int iNew)
