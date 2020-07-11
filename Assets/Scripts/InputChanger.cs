@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class InputChanger : MonoBehaviour
 {
+    public static InputChanger Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     public delegate void ChangerEvents(int i, int j);
     public static event ChangerEvents ChangedInput;
     public delegate void ChangerEvents2(KeyCode i, KeyCode j);
     public static event ChangerEvents2 ChangedInput2;
     public delegate void ArrowImageChangeEvents(DirectionEnum dChange, DirectionEnum dNew);
     public static event ArrowImageChangeEvents UpdateGreens;
-
-    public delegate void ChangeBasicEvents();
-    public static event ChangeBasicEvents ChangeBasic;
-
-    private float tChange = 0;
-    public float timerToChangeInput = 5;
 
     private int lastIChanged = -1;
     private int lastNewChanged = -1;
@@ -25,21 +25,15 @@ public class InputChanger : MonoBehaviour
     [SerializeField] bool true2_false1 = false;
     [SerializeField] bool canChangeTheSameTwice = false;
 
-    private void Update()
+    public void ChangeInput()
     {
-        tChange += Time.deltaTime;
-        if (tChange >= timerToChangeInput)
+        if (true2_false1)
         {
-            tChange = 0;
-            if (true2_false1)
-            {
-                RNGenerateChange();
-            }
-            else
-            {
-                RNGenerateChange2();
-            }
-            ChangeBasic?.Invoke();
+            RNGenerateChange();
+        }
+        else
+        {
+            RNGenerateChange2();
         }
     }
 
