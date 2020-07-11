@@ -8,6 +8,8 @@ public class InputChanger : MonoBehaviour
     public static event ChangerEvents ChangedInput;
     public delegate void ChangerEvents2(KeyCode i, KeyCode j);
     public static event ChangerEvents2 ChangedInput2;
+    public delegate void ArrowImageChangeEvents(DirectionEnum dChange, DirectionEnum dNew);
+    public static event ArrowImageChangeEvents UpdateGreens;
 
     public delegate void ChangeBasicEvents();
     public static event ChangeBasicEvents ChangeBasic;
@@ -44,6 +46,7 @@ public class InputChanger : MonoBehaviour
     private void RNGenerateChange()
     {
         List<KeyCode> auxCodes = InputManager.Instance.Codes;
+        List<DirectionEnum> auxDirs = InputManager.Instance.Directions;
 
         int iToChange;
         int iNew;
@@ -68,6 +71,23 @@ public class InputChanger : MonoBehaviour
         auxCodes[iToChange] = auxCodes[iNew];
         auxCodes[iNew] = auxKC;
 
+        DirectionEnum auxDC = auxDirs[iToChange];
+        DirectionEnum auxDN = auxDirs[iNew];
+
+        UpdateGreens(auxDC, auxDN);
+
+        for (int i = 0; i < InputRequester.pressedDirs.Count; i++)
+        {
+            if (InputRequester.pressedDirs[i] == auxDirs[iToChange])
+            {
+                InputRequester.pressedDirs[i] = auxDN;
+            }
+            else if (InputRequester.pressedDirs[i] == auxDirs[iNew])
+            {
+                InputRequester.pressedDirs[i] = auxDC;
+            }
+        }
+
         ChangedInput?.Invoke(iToChange, iNew);
     }
 
@@ -83,6 +103,7 @@ public class InputChanger : MonoBehaviour
     private void RNGenerateChange2()
     {
         List<KeyCode> auxCodes = InputManager.Instance.Codes;
+        List<DirectionEnum> auxDirs = InputManager.Instance.Directions;
 
         int iToChange;
         int iNew;
@@ -106,6 +127,23 @@ public class InputChanger : MonoBehaviour
 
         auxCodes[iToChange] = auxCodes[iNew];
         auxCodes[iNew] = auxKC;
+
+        DirectionEnum auxDC = auxDirs[iToChange];
+        DirectionEnum auxDN = auxDirs[iNew];
+
+        UpdateGreens(auxDC, auxDN);
+
+        for (int i = 0; i < InputRequester.pressedDirs.Count; i++)
+        {
+            if (InputRequester.pressedDirs[i] == auxDirs[iToChange])
+            {
+                InputRequester.pressedDirs[i] = auxDN;
+            }
+            else if (InputRequester.pressedDirs[i] == auxDirs[iNew])
+            {
+                InputRequester.pressedDirs[i] = auxDC;
+            }
+        }
 
         ChangedInput2?.Invoke(auxCodes[iNew], auxCodes[iToChange]);
     }
