@@ -47,7 +47,7 @@ public class ArrowImage : MonoBehaviour
 
     public void ChangeToGreen()
     {
-        image.color = Color.green;
+        image.color = Color.white;
         green = true;
     }
 
@@ -56,7 +56,7 @@ public class ArrowImage : MonoBehaviour
         if (green)
         {
             green = false;
-            image.color = Color.red;
+            image.color = Color.black;
         }
     }
 

@@ -17,17 +17,14 @@ public class InputCatcherBar : MonoBehaviour
 
     private bool leftTrueRightFalse = false;
 
-    private bool recieveInput = false;
-
-    public bool RecieveInput { get => recieveInput; }
-
     private void Start()
     {
         InputRequester.InputResult += UpdateDebugText;
 
-        attackZoneImage.rectTransform.anchorMin = new Vector2(0, 0);
-        attackZoneImage.rectTransform.anchorMax = new Vector2(leftLimit, 1);
-        attackZoneImage.rectTransform.sizeDelta = new Vector2(0, 0);
+        //attackZoneImage.rectTransform.anchorMin = new Vector2(0, 0);
+        //attackZoneImage.rectTransform.anchorMax = new Vector2(leftLimit, 1);
+        //attackZoneImage.rectTransform.sizeDelta = new Vector2(0, 0);
+        attackZoneImage.gameObject.SetActive(false);
         defenseZoneImage.rectTransform.anchorMin = new Vector2(rightLimit, 0);
         defenseZoneImage.rectTransform.anchorMax = new Vector2(1, 1);
         defenseZoneImage.rectTransform.sizeDelta = new Vector2(0, 0);
@@ -35,42 +32,40 @@ public class InputCatcherBar : MonoBehaviour
 
     private void Update()
     {
-        if (!leftTrueRightFalse)
+        //if (!leftTrueRightFalse)
+        //{
+        value += valueChangePerSec * Time.deltaTime;
+        value = Mathf.Clamp01(value);
+
+        if (value >= 1f)
         {
-            value += valueChangePerSec * Time.deltaTime;
-            value = Mathf.Clamp01(value);
-
-            if (value >= 1f)
-            {
-                leftTrueRightFalse = true;
-                InputRequester.CheckInput();
-                InputRequester.RemoveOldestRequestDir();
-                InputRequester.GenerateNewRequestDir();
-            }
+            value = 0;
+            InputRequester.CheckInput();
+            InputRequester.RemoveOldestRequestDir();
+            InputRequester.GenerateNewRequestDir();
         }
-        else
-        {
-            value -= valueChangePerSec * Time.deltaTime;
-            value = Mathf.Clamp01(value);
+        //}
+        //else
+        //{
+            //value -= valueChangePerSec * Time.deltaTime;
+            //value = Mathf.Clamp01(value);
 
-            if (value <= 0f)
-            {
-                leftTrueRightFalse = false;
-                InputRequester.CheckInput();
-                InputRequester.RemoveOldestRequestDir();
-                InputRequester.GenerateNewRequestDir();
-            }
-        }
+            //if (value <= 0f)
+            //{
+            //    leftTrueRightFalse = false;
+            //    InputRequester.CheckInput();
+            //    InputRequester.RemoveOldestRequestDir();
+            //    InputRequester.GenerateNewRequestDir();
+            //}
+        //}
 
-        if (value <= leftLimit || value >= rightLimit)
+        if (/*value <= leftLimit || */value >= rightLimit)
         {
             slider.transform.Find("Handle Slide Area").Find("Handle").GetComponent<Image>().color = Color.green;
-            recieveInput = true;
         }
         else
         {
-            slider.transform.Find("Handle Slide Area").Find("Handle").GetComponent<Image>().color = Color.red;
-            recieveInput = false;
+            slider.transform.Find("Handle Slide Area").Find("Handle").GetComponent<Image>().color = Color.white;
         }
 
         slider.value = value;

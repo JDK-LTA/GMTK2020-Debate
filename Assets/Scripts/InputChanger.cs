@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class InputChanger : MonoBehaviour
 {
+    public static InputChanger Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     public delegate void ChangerEvents(int i, int j);
     public static event ChangerEvents ChangedInput;
     public delegate void ChangerEvents2(KeyCode i, KeyCode j);
@@ -31,15 +37,20 @@ public class InputChanger : MonoBehaviour
         if (tChange >= timerToChangeInput)
         {
             tChange = 0;
-            if (true2_false1)
-            {
-                RNGenerateChange();
-            }
-            else
-            {
-                RNGenerateChange2();
-            }
-            ChangeBasic?.Invoke();
+            //ChangeInput();
+            //ChangeBasic?.Invoke();
+        }
+    }
+
+    public void ChangeInput()
+    {
+        if (true2_false1)
+        {
+            RNGenerateChange();
+        }
+        else
+        {
+            RNGenerateChange2();
         }
     }
 

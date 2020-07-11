@@ -52,6 +52,7 @@ public class InputRequester : MonoBehaviour
                 if (!inputFound)
                 {
                     canGoodInput = false;
+                    InputChanger.Instance.ChangeInput();
                     InputResult?.Invoke(false);
                     break;
                 }
@@ -63,6 +64,7 @@ public class InputRequester : MonoBehaviour
         }
         else
         {
+            InputChanger.Instance.ChangeInput();
             InputResult?.Invoke(false);
         }
     }
