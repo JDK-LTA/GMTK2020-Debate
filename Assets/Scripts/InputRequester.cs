@@ -24,10 +24,14 @@ public class InputRequester : MonoBehaviour
 
     public static void GenerateNewRequestDir()
     {
-        requestedDirs.Add((DirectionEnum)Random.Range(0, 4));
+        DirectionEnum dirE = (DirectionEnum)Random.Range(0, 4);
+        requestedDirs.Add(dirE);
+
+        InputUI.exImages[(int)dirE].gameObject.SetActive(true);
     }
     public static void RemoveOldestRequestDir()
     {
+        InputUI.exImages[(int)requestedDirs[0]].gameObject.SetActive(false);
         requestedDirs.RemoveAt(0);
     }
 

@@ -6,22 +6,48 @@ using UnityEngine.UI;
 public class InputUI : MonoBehaviour
 {
     [SerializeField] private Text changeText;
-    [SerializeField] private Text requestText;
 
     [SerializeField] private List<Text> arrowTexts = new List<Text>();
     [SerializeField] public List<ArrowImage> arrowImages = new List<ArrowImage>();
+    [SerializeField] public List<Image> exclamationImages = new List<Image>();
+    public static List<Image> exImages = new List<Image>();
+    [SerializeField] public Sprite punchSprite, exclamationSprite;
 
+    [SerializeField] private Image hpBar;
+
+    //DEPRECATED \ DEBUG
+    [SerializeField] private Text requestText;
     [SerializeField] private bool showArrowTexts = true;
+
+    private bool exTruePunchFalse = true;
+
+    private void Awake()
+    {
+        exImages = exclamationImages;
+    }
     void Start()
     {
         InputChanger.ChangedInput += UpdateChangeText;
         InputChanger.ChangedInput2 += UpdateChangeText;
 
         InputChanger.UpdateGreens += UpdateGreenImages;
+
+        InputCatcherBar.ChangeImages += ChangeExImages;
     }
     private void Update()
     {
+        hpBar.fillAmount = (float)Player.Instance.CurrentHp / (float)Player.Instance.MaxHp;
+        
         requestText.text = InputRequester.requestedDirs[0].ToString();
+    }
+
+    private void ChangeExImages()
+    {
+        exTruePunchFalse = !exTruePunchFalse;
+        for (int i = 0; i < exImages.Count; i++)
+        {
+            exImages[i].sprite = exTruePunchFalse ? exclamationSprite : punchSprite;
+        }
     }
 
     private void UpdateGreenImages(DirectionEnum dChange, DirectionEnum dNew)

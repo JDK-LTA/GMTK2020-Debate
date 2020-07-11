@@ -17,12 +17,6 @@ public class InputChanger : MonoBehaviour
     public delegate void ArrowImageChangeEvents(DirectionEnum dChange, DirectionEnum dNew);
     public static event ArrowImageChangeEvents UpdateGreens;
 
-    public delegate void ChangeBasicEvents();
-    public static event ChangeBasicEvents ChangeBasic;
-
-    private float tChange = 0;
-    public float timerToChangeInput = 5;
-
     private int lastIChanged = -1;
     private int lastNewChanged = -1;
     private KeyCode lastICodeChanged = KeyCode.Asterisk;
@@ -30,17 +24,6 @@ public class InputChanger : MonoBehaviour
 
     [SerializeField] bool true2_false1 = false;
     [SerializeField] bool canChangeTheSameTwice = false;
-
-    private void Update()
-    {
-        tChange += Time.deltaTime;
-        if (tChange >= timerToChangeInput)
-        {
-            tChange = 0;
-            //ChangeInput();
-            //ChangeBasic?.Invoke();
-        }
-    }
 
     public void ChangeInput()
     {
