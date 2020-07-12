@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float pointsAddedPerCombo = 5;
     [SerializeField] private GameObject finalScene;
 
+    [SerializeField] private AudioClip changeInput, getHit, woosh, smash;
+
     private void Start()
     {
         orSubWhenHit = subWhenHit;
@@ -55,8 +57,12 @@ public class Player : MonoBehaviour
             if (InputRequester.punchTrueDefFalse)
             {
                 currentHp += sumWhenPunch;
+                AudioSource.PlayClipAtPoint(smash, Vector3.zero);
             }
-
+            else
+            {
+                AudioSource.PlayClipAtPoint(woosh, Vector3.zero);
+            }
             punchesHit++;
 
             if (punchesHit >= hitsToChangeInput)
@@ -80,10 +86,14 @@ public class Player : MonoBehaviour
                 canChangeInput = false;
                 punchesHit = 0;
                 InputChanger.Instance.ChangeInput();
+                AudioSource.PlayClipAtPoint(changeInput, Vector3.zero);
             }
             if (!InputRequester.punchTrueDefFalse)
             {
-
+                if (!canChangeInput)
+                {
+                    AudioSource.PlayClipAtPoint(getHit, Vector3.zero);
+                }
                 subWhenHit = orSubWhenHit;
                 currentHp -= subWhenHit;
             }

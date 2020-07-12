@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class InputUI : MonoBehaviour
 {
-    [SerializeField] private Text changeText;
+    [SerializeField] private Image controlToChangeImage, newControlImage, isImage;
+    [SerializeField] private Sprite upS, downS, leftS, rightS;
 
     [SerializeField] private List<Text> arrowTexts = new List<Text>();
     [SerializeField] public List<ArrowImage> arrowImages = new List<ArrowImage>();
@@ -86,33 +87,101 @@ public class InputUI : MonoBehaviour
 
     private void UpdateChangeText(int iChanged, int iNew)
     {
-        string iC, iN;
+        //string iC, iN;
 
-        iC = UpdateChangeWord(iChanged);
-        iN = UpdateChangeWord(iNew);
+        //iC = UpdateChangeWord(iChanged);
+        //iN = UpdateChangeWord(iNew);
 
-        changeText.text = iC + " is " + iN;
+        //changeText.text = iC + " is " + iN;
 
-        for (int i = 0; i < arrowTexts.Count; i++)
-        {
-            arrowTexts[i].text = InputManager.Instance.Codes[i].ToString().TrimEnd("Arrow".ToCharArray());
-        }
+        //for (int i = 0; i < arrowTexts.Count; i++)
+        //{
+        //    arrowTexts[i].text = InputManager.Instance.Codes[i].ToString().TrimEnd("Arrow".ToCharArray());
+        //}
+
+        controlToChangeImage.sprite = UpdateWords(iChanged);
+        newControlImage.sprite = UpdateWords(iNew);
+
+        controlToChangeImage.gameObject.SetActive(true);
+        newControlImage.gameObject.SetActive(true);
+        isImage.gameObject.SetActive(true);
+
+        StartCoroutine(DeactivateUI(controlToChangeImage, newControlImage, isImage));
     }
     private void UpdateChangeText(KeyCode iChanged, KeyCode iNew)
     {
-        string iC, iN;
+        //string iC, iN;
 
-        iC = UpdateChangeWord(iChanged);
-        iN = UpdateChangeWord(iNew);
+        //iC = UpdateChangeWord(iChanged);
+        //iN = UpdateChangeWord(iNew);
 
-        changeText.text = iC + " is " + iN;
+        //changeText.text = iC + " is " + iN;
 
-        for (int i = 0; i < arrowTexts.Count; i++)
-        {
-            arrowTexts[i].text = InputManager.Instance.Codes[i].ToString().TrimEnd("Arrow".ToCharArray());
-        }
+        //for (int i = 0; i < arrowTexts.Count; i++)
+        //{
+        //    arrowTexts[i].text = InputManager.Instance.Codes[i].ToString().TrimEnd("Arrow".ToCharArray());
+        //}
+
+        controlToChangeImage.sprite = UpdateWords(iChanged);
+        newControlImage.sprite = UpdateWords(iNew);
+
+        controlToChangeImage.gameObject.SetActive(true);
+        newControlImage.gameObject.SetActive(true);
+        isImage.gameObject.SetActive(true);
+
+        StartCoroutine(DeactivateUI(controlToChangeImage, newControlImage, isImage));
     }
 
+    private Sprite UpdateWords(int i)
+    {
+        Sprite aux;
+        switch (i)
+        {
+            case 0:
+                aux = upS;
+                break;
+            case 1:
+                aux = downS;
+                break;
+            case 2:
+                aux = leftS;
+                break;
+            case 3:
+                aux = rightS;
+                break;
+
+            default:
+                aux = upS;
+                break;
+        }
+
+        return aux;
+    }
+    private Sprite UpdateWords(KeyCode i)
+    {
+        Sprite aux;
+        switch (i)
+        {
+            case KeyCode.UpArrow:
+                aux = upS;
+                break;
+            case KeyCode.DownArrow:
+                aux = downS;
+                break;
+            case KeyCode.LeftArrow:
+                aux = leftS;
+                break;
+            case KeyCode.RightArrow:
+                aux = rightS;
+                break;
+
+            default:
+                aux = upS;
+                break;
+        }
+
+        return aux;
+    }
     private static string UpdateChangeWord(int i)
     {
         string aux;
@@ -162,5 +231,13 @@ public class InputUI : MonoBehaviour
         }
 
         return aux;
+    }
+    IEnumerator DeactivateUI(Image image, Image image2, Image image3)
+    {
+        yield return new WaitForSeconds(4f);
+
+        image.gameObject.SetActive(false);
+        image2.gameObject.SetActive(false);
+        image3.gameObject.SetActive(false);
     }
 }

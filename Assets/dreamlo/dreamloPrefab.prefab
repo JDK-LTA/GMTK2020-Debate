@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IUpgradedAndGotSSL: 0
-  privateCode: 
-  publicCode: 
+  privateCode: _uSvfwvfqEyiSxwfcrrkrwaBKRSSl9GU2l_VBV-oXtkA
+  publicCode: 5f0b1510377eda0b6cf36400
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 0

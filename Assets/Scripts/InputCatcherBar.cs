@@ -117,9 +117,9 @@ public class InputCatcherBar : MonoBehaviour
                         Player.Instance.gameObject.transform.Translate(xOffsetWhenDodging, 0, 0);
                         leftRightDefense.sprite = wooshL;
                     }
-                    upDownDefense.gameObject.SetActive(true);
+                    leftRightDefense.gameObject.SetActive(true);
 
-                    StartCoroutine(DeactivateUI(upDownDefense, Player.Instance.gameObject.transform));
+                    StartCoroutine(DeactivateUI(leftRightDefense, Player.Instance.gameObject.transform));
                 }
             }
         }
