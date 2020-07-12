@@ -12,7 +12,7 @@ public class InputCatcherBar : MonoBehaviour
     [SerializeField] private Slider slider;
     [SerializeField] private Image attackZoneImage, defenseZoneImage, handleImage;
     [SerializeField] public Sprite punchSprite, exclamationSprite;
-    [SerializeField] private Image goodAttack, badAttack, midDefense, ouchImage, damageFeedback, boomImage;
+    [SerializeField] private Image goodAttack, badAttack, upDownDefense, leftRightDefense, ouchImage, damageFeedback, boomImage;
     [SerializeField] private Sprite smash, crash, wooshL, wooshR, poof, ouch, boom, emojis;
     [SerializeField] private Text debugGoodOrBadText;
 
@@ -100,26 +100,26 @@ public class InputCatcherBar : MonoBehaviour
             {
                 if (InputRequester.requestedDirs[0] == DirectionEnum.UP || InputRequester.requestedDirs[0] == DirectionEnum.DOWN)
                 {
-                    midDefense.sprite = poof;
-                    midDefense.gameObject.SetActive(true);
+                    upDownDefense.sprite = poof;
+                    upDownDefense.gameObject.SetActive(true);
                     Player.Instance.gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                    StartCoroutine(DeactivateUI(midDefense, Player.Instance.gameObject.GetComponent<SpriteRenderer>()));
+                    StartCoroutine(DeactivateUI(upDownDefense, Player.Instance.gameObject.GetComponent<SpriteRenderer>()));
                 }
                 else
                 {
                     if (InputRequester.requestedDirs[0] == DirectionEnum.LEFT)
                     {
                         Player.Instance.gameObject.transform.Translate(-xOffsetWhenDodging, 0, 0);
-                        midDefense.sprite = wooshR;
+                        leftRightDefense.sprite = wooshR;
                     }
                     else
                     {
                         Player.Instance.gameObject.transform.Translate(xOffsetWhenDodging, 0, 0);
-                        midDefense.sprite = wooshL;
+                        leftRightDefense.sprite = wooshL;
                     }
-                    midDefense.gameObject.SetActive(true);
+                    upDownDefense.gameObject.SetActive(true);
 
-                    StartCoroutine(DeactivateUI(midDefense, Player.Instance.gameObject.transform));
+                    StartCoroutine(DeactivateUI(upDownDefense, Player.Instance.gameObject.transform));
                 }
             }
         }
