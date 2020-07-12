@@ -13,7 +13,7 @@ public class InputCatcherBar : MonoBehaviour
     [SerializeField] private Image attackZoneImage, defenseZoneImage, handleImage;
     [SerializeField] public Sprite punchSprite, exclamationSprite;
     [SerializeField] private Image goodAttack, badAttack, midDefense, ouchImage, damageFeedback, boomImage;
-    [SerializeField] private Sprite smash, crash, woosh, poof, ouch, boom, emojis;
+    [SerializeField] private Sprite smash, crash, wooshL, wooshR, poof, ouch, boom, emojis;
     [SerializeField] private Text debugGoodOrBadText;
 
     [SerializeField] private float value = 0;
@@ -110,15 +110,39 @@ public class InputCatcherBar : MonoBehaviour
                     if (InputRequester.requestedDirs[0] == DirectionEnum.LEFT)
                     {
                         Player.Instance.gameObject.transform.Translate(-xOffsetWhenDodging, 0, 0);
+                        midDefense.sprite = wooshR;
                     }
                     else
                     {
                         Player.Instance.gameObject.transform.Translate(xOffsetWhenDodging, 0, 0);
+                        midDefense.sprite = wooshL;
                     }
-                    midDefense.sprite = woosh;
                     midDefense.gameObject.SetActive(true);
 
                     StartCoroutine(DeactivateUI(midDefense, Player.Instance.gameObject.transform));
+                }
+            }
+        }
+        else
+        {
+            if (InputRequester.punchTrueDefFalse)
+            {
+                badAttack.gameObject.SetActive(true);
+                StartCoroutine(DeactivateUI(badAttack));
+            }
+            else
+            {
+                if (!Player.Instance.CanChangeInput)
+                {
+                    ouchImage.gameObject.SetActive(true);
+                    damageFeedback.gameObject.SetActive(true);
+                    StartCoroutine(DeactivateUI(ouchImage, damageFeedback));
+                }
+                else
+                {
+                    ouchImage.gameObject.SetActive(true);
+                    boomImage.gameObject.SetActive(true);
+                    StartCoroutine(DeactivateUI(ouchImage, boomImage));
                 }
             }
         }
@@ -129,6 +153,13 @@ public class InputCatcherBar : MonoBehaviour
         yield return new WaitUntil(() => value >= 0.3f);
 
         image.gameObject.SetActive(false);
+    }
+    IEnumerator DeactivateUI(Image image, Image image2)
+    {
+        yield return new WaitUntil(() => value >= 0.3f);
+
+        image.gameObject.SetActive(false);
+        image2.gameObject.SetActive(false);
     }
     IEnumerator DeactivateUI(Image image, SpriteRenderer playerSr)
     {

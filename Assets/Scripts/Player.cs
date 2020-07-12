@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     private bool canChangeInput = false;
     public int CurrentHp { get => currentHp; }
     public int MaxHp { get => maxHp; }
+    public bool CanChangeInput { get => canChangeInput; }
 
     private float points = 0;
     [SerializeField] private float pointsPerSec = 100;
