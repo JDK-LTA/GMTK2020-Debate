@@ -113,10 +113,10 @@ public class dreamloLeaderBoard : MonoBehaviour {
 
 	IEnumerator GetRequest(string url)
 	{
-		// Something not working? Try copying/pasting the url into your web browser and see if it works.
-		// Debug.Log(url);
+        // Something not working? Try copying/pasting the url into your web browser and see if it works.
+        //Debug.Log(url);
 
-		using (UnityWebRequest www = UnityWebRequest.Get(url))
+        using (UnityWebRequest www = UnityWebRequest.Get(url))
 		{
 			yield return www.SendWebRequest();
 			highScores = www.downloadHandler.text;

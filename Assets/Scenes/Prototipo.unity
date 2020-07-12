@@ -2747,7 +2747,7 @@ MonoBehaviour:
   subWhenHit: 20
   scoreText: {fileID: 247034581}
   punchesHit: 0
-  hitsToChangeInput: 3
+  hitsToChangeInput: 5
   pointsPerSec: 100
   pointsGainedPerGoodAction: 10
   pointsAddedPerCombo: 5

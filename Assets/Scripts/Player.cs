@@ -27,13 +27,14 @@ public class Player : MonoBehaviour
     public int CurrentHp { get => currentHp; }
     public int MaxHp { get => maxHp; }
     public bool CanChangeInput { get => canChangeInput; }
+    public float Points { get => points; }
 
     private float points = 0;
     [SerializeField] private float pointsPerSec = 100;
     [SerializeField] private float pointsGainedPerGoodAction = 10;
     private float orPointsGained;
     [SerializeField] private float pointsAddedPerCombo = 5;
-
+    [SerializeField] private GameObject finalScene;
 
     private void Start()
     {
@@ -74,14 +75,14 @@ public class Player : MonoBehaviour
         }
         else
         {
+            if (canChangeInput)
+            {
+                canChangeInput = false;
+                punchesHit = 0;
+                InputChanger.Instance.ChangeInput();
+            }
             if (!InputRequester.punchTrueDefFalse)
             {
-                if (canChangeInput)
-                {
-                    canChangeInput = false;
-                    punchesHit = 0;
-                    InputChanger.Instance.ChangeInput();
-                }
 
                 subWhenHit = orSubWhenHit;
                 currentHp -= subWhenHit;
@@ -92,9 +93,10 @@ public class Player : MonoBehaviour
 
         currentHp = Mathf.Clamp(currentHp, 0, maxHp);
 
-        if (currentHp < 0)
+        if (currentHp <= 0)
         {
-            //ESCENA FINAL
+            Time.timeScale = 0;
+            finalScene.SetActive(true);
         }
     }
 }

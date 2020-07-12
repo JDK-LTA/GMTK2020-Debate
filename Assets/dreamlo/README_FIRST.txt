@@ -14,3 +14,5 @@
 NOTE:
 - Web requests don't happen automatically! They can take a second or so. All of the functions are coroutines.
 - use LoadScores to get the most recent scores. (just ONCE AND WAIT...do not do it every frame)
+
+http://dreamlo.com/lb/_uSvfwvfqEyiSxwfcrrkrwaBKRSSl9GU2l_VBV-oXtkA
