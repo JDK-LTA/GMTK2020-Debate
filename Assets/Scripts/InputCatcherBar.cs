@@ -12,6 +12,8 @@ public class InputCatcherBar : MonoBehaviour
     [SerializeField] private Slider slider;
     [SerializeField] private Image attackZoneImage, defenseZoneImage, handleImage;
     [SerializeField] public Sprite punchSprite, exclamationSprite;
+    [SerializeField] private Image goodAttack, badAttack, midDefense, ouchImage, damageFeedback, boomImage;
+    [SerializeField] private Sprite smash, crash, woosh, poof, ouch, boom, emojis;
     [SerializeField] private Text debugGoodOrBadText;
 
     [SerializeField] private float value = 0;
@@ -19,6 +21,8 @@ public class InputCatcherBar : MonoBehaviour
     private float originalValueChange;
     [SerializeField] private float valueSumPerHit = 0.15f;
     [SerializeField] private float valueSumPerSec = 0.005f;
+
+    [SerializeField] private float xOffsetWhenDodging;
 
     private bool punchTrueDefFalse = false;
 
@@ -37,9 +41,10 @@ public class InputCatcherBar : MonoBehaviour
         //attackZoneImage.rectTransform.anchorMax = new Vector2(leftLimit, 1);
         //attackZoneImage.rectTransform.sizeDelta = new Vector2(0, 0);
         attackZoneImage.gameObject.SetActive(false);
-        defenseZoneImage.rectTransform.anchorMin = new Vector2(rightLimit, -0.2f);
-        defenseZoneImage.rectTransform.anchorMax = new Vector2(1, .8f);
-        defenseZoneImage.rectTransform.sizeDelta = new Vector2(0, 0);
+        //defenseZoneImage.rectTransform.anchorMin = new Vector2(rightLimit, -0.2f);
+        //defenseZoneImage.rectTransform.anchorMax = new Vector2(1, .8f);
+        //defenseZoneImage.rectTransform.sizeDelta = new Vector2(0, 0);
+        defenseZoneImage.gameObject.SetActive(false);
 
         handleImage.sprite = exclamationSprite;
     }
@@ -72,8 +77,8 @@ public class InputCatcherBar : MonoBehaviour
         }
 
         slider.value = value;
-     
-        
+
+
         originalValueChange += valueSumPerSec * Time.deltaTime;
     }
 
@@ -82,6 +87,61 @@ public class InputCatcherBar : MonoBehaviour
         debugGoodOrBadText.text = good ? "Well done" : "Nope";
 
         valueChangePerSec = good ? valueChangePerSec + valueSumPerHit : originalValueChange;
+
+        if (good)
+        {
+            if (InputRequester.punchTrueDefFalse)
+            {
+                goodAttack.sprite = UnityEngine.Random.value > 0.5f ? smash : crash;
+                goodAttack.gameObject.SetActive(true);
+                StartCoroutine(DeactivateUI(goodAttack));
+            }
+            else
+            {
+                if (InputRequester.requestedDirs[0] == DirectionEnum.UP || InputRequester.requestedDirs[0] == DirectionEnum.DOWN)
+                {
+                    midDefense.sprite = poof;
+                    midDefense.gameObject.SetActive(true);
+                    Player.Instance.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                    StartCoroutine(DeactivateUI(midDefense, Player.Instance.gameObject.GetComponent<SpriteRenderer>()));
+                }
+                else
+                {
+                    if (InputRequester.requestedDirs[0] == DirectionEnum.LEFT)
+                    {
+                        Player.Instance.gameObject.transform.Translate(-xOffsetWhenDodging, 0, 0);
+                    }
+                    else
+                    {
+                        Player.Instance.gameObject.transform.Translate(xOffsetWhenDodging, 0, 0);
+                    }
+                    midDefense.sprite = woosh;
+                    midDefense.gameObject.SetActive(true);
+
+                    StartCoroutine(DeactivateUI(midDefense, Player.Instance.gameObject.transform));
+                }
+            }
+        }
     }
 
+    IEnumerator DeactivateUI(Image image)
+    {
+        yield return new WaitUntil(() => value >= 0.3f);
+
+        image.gameObject.SetActive(false);
+    }
+    IEnumerator DeactivateUI(Image image, SpriteRenderer playerSr)
+    {
+        yield return new WaitUntil(() => value >= 0.3f);
+
+        image.gameObject.SetActive(false);
+        playerSr.enabled = true;
+    }
+    IEnumerator DeactivateUI(Image image, Transform playerT)
+    {
+        yield return new WaitUntil(() => value >= 0.3f);
+
+        image.gameObject.SetActive(false);
+        playerT.position = new Vector3(0, playerT.position.y);
+    }
 }

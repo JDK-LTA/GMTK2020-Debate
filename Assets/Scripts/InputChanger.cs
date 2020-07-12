@@ -35,6 +35,7 @@ public class InputChanger : MonoBehaviour
         {
             RNGenerateChange2();
         }
+        Debug.Log("Changed Input");
     }
 
     private void RNGenerateChange()

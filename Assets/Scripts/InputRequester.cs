@@ -14,6 +14,8 @@ public class InputRequester : MonoBehaviour
     public delegate void RequesterEvents(bool good);
     public static event RequesterEvents InputResult;
 
+    public static bool punchTrueDefFalse = true;
+
     private void Start()
     {
         GenerateNewRequestDir();
@@ -27,6 +29,7 @@ public class InputRequester : MonoBehaviour
         DirectionEnum dirE = (DirectionEnum)Random.Range(0, 4);
         requestedDirs.Add(dirE);
 
+        punchTrueDefFalse = !punchTrueDefFalse;
         InputUI.exImages[(int)dirE].gameObject.SetActive(true);
     }
     public static void RemoveOldestRequestDir()
@@ -56,7 +59,6 @@ public class InputRequester : MonoBehaviour
                 if (!inputFound)
                 {
                     canGoodInput = false;
-                    InputChanger.Instance.ChangeInput();
                     InputResult?.Invoke(false);
                     break;
                 }
@@ -68,7 +70,6 @@ public class InputRequester : MonoBehaviour
         }
         else
         {
-            InputChanger.Instance.ChangeInput();
             InputResult?.Invoke(false);
         }
     }
