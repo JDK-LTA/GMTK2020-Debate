@@ -106,6 +106,7 @@ public class Player : MonoBehaviour
         if (currentHp <= 0)
         {
             Time.timeScale = 0;
+            FindObjectOfType<AudioTimeShifter>().GetComponent<AudioSource>().Stop();
             finalScene.SetActive(true);
         }
     }

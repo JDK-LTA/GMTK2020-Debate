@@ -1640,7 +1640,7 @@ MonoBehaviour:
   - {fileID: 526737051}
   - {fileID: 782981517}
   - {fileID: 1161722222}
-  punchSprite: {fileID: 21300000, guid: 06989d508bca00b49a911ddeffd98883, type: 3}
+  punchSprite: {fileID: 21300000, guid: 03ce4055a16d5c44c91f39bf7c393bc0, type: 3}
   exclamationSprite: {fileID: 21300000, guid: bfa9e52682f7c864290cc0b9c481ee0e, type: 3}
   hpBar: {fileID: 1355864920}
   requestText: {fileID: 1680143851}
